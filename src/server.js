@@ -2,10 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const exphbs = require('express-handlebars');
-
-const db = require('./database/database');
-
 const path = require('path');
+const morgan = require('morgan');
 // Initializations
 const app = express();
 
@@ -22,7 +20,7 @@ app.set('view engine', '.hbs')
 
 // Middlewares
 app.use(express.urlencoded({extended:false}));
-
+app.use(morgan('dev'));
 //Encriptado de contraseña
 const bcrypt = require('bcryptjs');
 
@@ -37,32 +35,17 @@ const matchPassword = async function(password){
 }
 
 
+//Static Files
+app.use(express.static(path.join(__dirname , 'public')));
+
+
 
 // Global Variables
 
 // Routes
+app.use(require('./routes/index.routes'));
+app.use(require('./routes/notes.routes'));
 
-app.get('/', (req, res) => {
-    res.render('index')
-})
-
-app.get('/db', (req, res) => {
-
-    Promise.resolve()
-    .then(function(){
-        return(db.query('SELECT * FROM prueba1')) 
-    })
-    .then(function(x){
-        console.log(x.rows)
-        res.send(x.rows)
-    })
-    .catch(function(e) {
-        console.log(e)
-    })
-
-})
-//Static Files
-app.use(express.static(path.join(__dirname + 'public')));
 
 
 module.exports = app ;
