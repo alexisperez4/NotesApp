@@ -8,6 +8,7 @@ notesCtrl.renderNoteForm = (req, res) => {
 notesCtrl.createNewNote = async (req, res) => {
     const {title, description} = req.body;
     const x = await db.query('INSERT INTO nota (titulo, descripcion) VALUES ($1, $2) RETURNING *', [title, description])
+    req.flash('success_msg', 'Note Added Successfully');
     res.redirect('/notes')
 }
 
@@ -32,12 +33,14 @@ notesCtrl.updateNote = async (req,  res) => {
     const { title , description } = req.body;
     await db.query('UPDATE nota SET titulo=($1), descripcion=($2)  WHERE id = ($3) ',
         [ title , description , id ]);
+    req.flash('success_msg', 'Note Updated Successfully')
     res.redirect('/notes');
 }
 
 notesCtrl.deleteNote = async (req, res) => {
     const id = req.params.id
     await db.query('DELETE FROM nota WHERE id = ($1)', [id])
+    req.flash('success_msg', 'Note Deleted Successfully')
     res.redirect('/notes')
 }
 
