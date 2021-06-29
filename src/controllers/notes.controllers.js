@@ -12,7 +12,7 @@ notesCtrl.createNewNote = async (req, res) => {
 }
 
 notesCtrl.renderNotes = async (req, res) => {
-    const allNotes = await (await db.query('SELECT * FROM nota'))
+    const allNotes = await (await db.query('SELECT * FROM nota ORDER BY ID'))
     const obj = {
         allNotes: allNotes.rows
     }
@@ -20,12 +20,19 @@ notesCtrl.renderNotes = async (req, res) => {
     res.render('notes/all-notes', obj);
 }
 
-notesCtrl.renderEditForm = (req, res) => {
-    res.send('renderEditForm');
+notesCtrl.renderEditForm = async (req, res) => {
+    const id = req.params.id;
+    const nota = await db.query('SELECT * FROM nota WHERE id = ($1)', [id])
+    const obj = { nota: nota.rows[0] }
+    res.render('notes/edit-note', obj);
 }
 
-notesCtrl.updateNote = (req,  res) => {
-    res.send('updateNote');
+notesCtrl.updateNote = async (req,  res) => {
+    const id = req.params.id;
+    const { title , description } = req.body;
+    await db.query('UPDATE nota SET titulo=($1), descripcion=($2)  WHERE id = ($3) ',
+        [ title , description , id ]);
+    res.redirect('/notes');
 }
 
 notesCtrl.deleteNote = async (req, res) => {
