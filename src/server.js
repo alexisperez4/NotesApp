@@ -31,9 +31,9 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(flash());
+
 //Encriptado de contraseña
 const bcrypt = require('bcryptjs');
-
 //funcion que genera el encriptado de la contraseña
 const encryPassword = async function(password){
     const salt = await bcrypt.genSalt(10);
@@ -53,13 +53,14 @@ app.use(express.static(path.join(__dirname , 'public')));
 // Global Variables
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg')
+    res.locals.error_msg = req.flash('error_msg')
     next();
 })
 
 // Routes
 app.use(require('./routes/index.routes'));
 app.use(require('./routes/notes.routes'));
-
+app.use(require('./routes/user.routes'));
 
 
 module.exports = app ;
