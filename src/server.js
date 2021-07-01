@@ -6,9 +6,12 @@ const path = require('path');
 const morgan = require('morgan');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
-const session = require('express-session')
+const session = require('express-session');
+const passport = require('passport');
+
 // Initializations
 const app = express();
+require('./config/passport')
 
 // Settings
 app.set('port', process.env.PORT || 4000);
@@ -30,19 +33,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
-
-//Encriptado de contraseña
-const bcrypt = require('bcryptjs');
-//funcion que genera el encriptado de la contraseña
-const encryPassword = async function(password){
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt) 
-}
-//funcion que compara la contraseña con la db
-const matchPassword = async function(password){    
-    return await bcrypt.compare(password, acaSeTraeLaContrasenaDelaDataBase)
-}
 
 
 //Static Files
