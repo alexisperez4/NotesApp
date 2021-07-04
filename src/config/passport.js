@@ -13,16 +13,24 @@ passport.use(
             passwordField: 'password'
         }, 
         async (email, password, done) => {
+            console.log('email recibido:'+email)
+            console.log('password recibido:'+password)
+            var validar_email;
             //confirmar si existe el email del usuario
-            const usuario = await (await (db.query('SELECT * FROM usuario WHERE email = $1', [email]))).rows[0];
-            const validar_email = usuario.email;
+            const usuario_ =  await db.query('SELECT * FROM usuario WHERE email = $1', [email]);
+            const usuario = usuario_.rows[0];
+            if(usuario){
+                validar_email = usuario.email;
+            }
             console.log('Email de la DB: ' + validar_email)
             if (!validar_email) {
                 console.log('Este Email: '+email+' no existe en la BD');
                 return done(null, false, { message: 'Not User Found' });
             } else {
+                console.log('-Iniciando verificacion de contraseña')
                 //matchPassword devuelve true si conicide la contraseña con la DB
-                const validar_password = await matchPassword(password);
+                const validar_password = await matchPassword(password, usuario.id);
+                console.log('ya se valido la contraseña')
                 if (validar_password) {
                     return done(null, usuario)
                 } else {

@@ -1,7 +1,7 @@
 const usersCtrl = {};
 
-const passport = require('passport').Strategy
-
+const passport = require('passport')
+                                         
 const db = require('../database/database');
 const { encryPassword, matchPassword } = require('./encriptar');
 
@@ -43,14 +43,18 @@ usersCtrl.renderSiginForm = (req, res) => {
     res.render('users/signin');
 }
 
-usersCtrl.signin = passport.authenticate('local', {
+usersCtrl.signin = passport.authenticate("local", {
     failureRedirect: '/users/signin',
     successRedirect: '/notes',
     failureFlash: true
-})
+});
 
+//obs: cada ves que se reinicia el servidor se pierde la sesion.
+//para que no se cierre la sesion hay que guardar la sesion en la base de datos utilizando modulos 
 usersCtrl.logout = (req, res) => {
-    res.send('logout')
+    req.logout();
+    req.flash('success_msg', 'You are logged out now.');
+    res.redirect('/users/signin')
 }
 
 module.exports = usersCtrl;

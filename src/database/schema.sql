@@ -2,6 +2,7 @@ CREATE TABLE nota (
     id SERIAL PRIMARY KEY,
     titulo TEXT NOT NULL,
     descripcion TEXT NOT NULL,
+    id_user INTEGER NOT NULL,
     fecha TIMESTAMP DEFAULT LOCALTIMESTAMP
 );
 
@@ -13,5 +14,7 @@ CREATE  TABLE usuario (
     fecha TIMESTAMP DEFAULT LOCALTIMESTAMP
 );
 
-INSERT INTO nota (titulo, descripcion)
-VALUES ("value_a", "value_b");
+ALTER TABLE nota
+ADD FOREIGN KEY (id_user) 
+REFERENCES public.usuario (id);
+
