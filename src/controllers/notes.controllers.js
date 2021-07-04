@@ -7,13 +7,15 @@ notesCtrl.renderNoteForm = (req, res) => {
 
 notesCtrl.createNewNote = async (req, res) => {
     const {title, description} = req.body;
-    const x = await db.query('INSERT INTO nota (titulo, descripcion) VALUES ($1, $2) RETURNING *', [title, description])
+    const user = req.user;
+    const x = await db.query('INSERT INTO nota (titulo, descripcion, id_user) VALUES ($1, $2, $3) RETURNING *', [title, description, user.id])
     req.flash('success_msg', 'Note Added Successfully');
     res.redirect('/notes')
 }
 
 notesCtrl.renderNotes = async (req, res) => {
-    const allNotes = await (await db.query('SELECT * FROM nota ORDER BY ID'))
+    const user = req.user;
+    const allNotes = await db.query('SELECT * FROM nota WHERE id_user = $1 ORDER BY ID', [user.id]);
     const obj = {
         allNotes: allNotes.rows
     }
@@ -23,7 +25,12 @@ notesCtrl.renderNotes = async (req, res) => {
 
 notesCtrl.renderEditForm = async (req, res) => {
     const id = req.params.id;
+    const user = req.user;
     const nota = await db.query('SELECT * FROM nota WHERE id = ($1)', [id])
+    if(nota.rows[0].id_user != user.id){
+        req.flash('error_msg', 'Not Authorized');
+        return res.redirect('/notes');
+    }    
     const obj = { nota: nota.rows[0] }
     res.render('notes/edit-note', obj);
 }
