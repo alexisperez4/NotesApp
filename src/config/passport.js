@@ -25,7 +25,7 @@ passport.use(
             // console.log('Email de la DB: ' + validar_email)
             if (!validar_email) {
                 // console.log('Este Email: '+email+' no existe en la BD');
-                return done(null, false, { message: 'Not User Found' });
+                return done(null, false, { message: 'Usuario no encontrado' });
             } else {
                 // console.log('-Iniciando verificacion de contraseña')
                 //matchPassword devuelve true si conicide la contraseña con la DB
@@ -34,7 +34,7 @@ passport.use(
                 if (validar_password) {
                     return done(null, usuario)
                 } else {
-                    return done(null, false, {message:'Incorrect Password'})
+                    return done(null, false, {message:'Contraseña incorrecta'})
                 }
             }
         }
