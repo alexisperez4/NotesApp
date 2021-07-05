@@ -28,12 +28,12 @@ usersCtrl.signup = async (req, res) => {
     } else {
         const validar_email = await (await (db.query('SELECT email FROM usuario WHERE email = ($1)', [email]))).rows[0]
         if (validar_email) {
-            req.flash('error_msg', 'The email is already in use.');
+            req.flash('error_msg', 'El email ya esta en uso.');
             res.redirect('/users/signup');
         } else {
             const password_encriptada = await encryPassword(password);
             const x = await db.query('INSERT INTO usuario (nombre, email, contrasena) VALUES ($1, $2, $3) RETURNING *', [name, email, password_encriptada]);
-            req.flash('success_msg', 'You are already registered');
+            req.flash('success_msg', 'Ya estas registrado.. Puedes Iniciar Sesión.');
             res.redirect('/users/signin');
         }
     }
@@ -53,7 +53,7 @@ usersCtrl.signin = passport.authenticate("local", {
 //para que no se cierre la sesion hay que guardar la sesion en la base de datos utilizando modulos 
 usersCtrl.logout = (req, res) => {
     req.logout();
-    req.flash('success_msg', 'You are logged out now.');
+    req.flash('success_msg', 'Has cerrado tu sesión.');
     res.redirect('/users/signin')
 }
 

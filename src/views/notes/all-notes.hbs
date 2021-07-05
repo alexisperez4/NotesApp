@@ -1,5 +1,5 @@
 {{#if allNotes}}
-<h1>All notes</h1>
+<p class="h1"><strong>Notas</strong></p>
 {{else}}
     <div class="container">
         <div class="container">
@@ -21,7 +21,7 @@
                 <p>{{descripcion}}</p>
                 <form action="/notes/delete/{{id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
-                    <button class="btn btn-danger btn-block btn-sm">Delete</button>
+                    <button class="btn btn-danger btn-block btn-sm">Eliminar</button>
                 </form>
             </div>
             
@@ -29,4 +29,11 @@
     </div>
     
     {{/each}}
+
+    <div class="col-md-12 text-center">
+        <div class="container my-5">
+            <a class="lin" href="/notes/add"><i class="fas fa-plus fa-3x text-success"></i>
+            <p class="text-secondary">Nueva nota</p></a>
+        </div>
+    </div>
 </div>
