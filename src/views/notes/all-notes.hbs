@@ -1,19 +1,19 @@
 {{#if allNotes}}
 <p class="h1"><strong>Notas</strong></p>
 {{else}}
+<div class="container">
     <div class="container">
-        <div class="container">
-            <h1>No hay notas, crea una nota nueva..</h1>
-            <a href="/notes/add" class="btn btn-light btn-lg">Crear una nota</a>
-        </div>
+        <h1>No hay notas, crea una nota nueva..</h1>
+        <a href="/notes/add" class="btn btn-light btn-lg">Crear una nota</a>
     </div>
+</div>
 {{/if}}
 
 <div class="row">
     {{#each allNotes}}
     <div class="col-md-3">
         <div class="card">
-            
+
             <div class="card-body">
                 <h4 class="card-title d-flex justify-content-between algin-items-center">
                     {{titulo}} <a href="/notes/edit/{{id}}"><i class="fas fa-pencil-alt"></i></a>
@@ -24,16 +24,22 @@
                     <button class="btn btn-danger btn-block btn-sm">Eliminar</button>
                 </form>
             </div>
-            
+
         </div>
     </div>
-    
+
     {{/each}}
 
+
+    {{#if allNotes}}
     <div class="col-md-12 text-center">
         <div class="container my-5">
             <a class="lin" href="/notes/add"><i class="fas fa-plus fa-3x text-success"></i>
-            <p class="text-secondary">Nueva nota</p></a>
+                <p class="text-secondary">Nueva nota</p>
+            </a>
         </div>
     </div>
+    {{/if}}
+
+
 </div>
