@@ -7,7 +7,11 @@
     <div class="container">
         <div class="container">
             <p class="">Esta app permite agregar notas, editar y eliminar.</p>
+            {{#if user}}
             <a href="/notes/add" class="btn btn-primary btn-lg">Crear una nota</a>
+            {{else}}
+            <a href="/users/signup" class="btn btn-primary btn-lg">Registrarse</a>
+            {{/if}}
         </div>
     </div>
 
