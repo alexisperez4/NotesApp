@@ -1,4 +1,13 @@
+{{#if allNotes}}
 <h1>All notes</h1>
+{{else}}
+    <div class="container">
+        <div class="container">
+            <h1>No hay notas, crea una nota nueva..</h1>
+            <a href="/notes/add" class="btn btn-light btn-lg">Crear una nota</a>
+        </div>
+    </div>
+{{/if}}
 
 <div class="row">
     {{#each allNotes}}
