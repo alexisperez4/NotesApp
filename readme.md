@@ -1,8 +1,8 @@
 # Pasos para ejecutar como desarrollador NotesApp
 
-# Crear un achivo .env en configurar las siguientes variables
+# Crear un achivo .env y configurar las siguientes variables
 - DATABASE_URL_LOCAL= postgres://YourUserName:YourPassword@YourHostname:port/YourDatabaseName
-- PORT = 5000
+- PORT = 5000 (o cualquier otro puerto)
 - NODE_ENV = development
 
 # Ejecutar para desarrollo
